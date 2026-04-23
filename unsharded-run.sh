@@ -1,0 +1,1 @@
+export STANTERPRISE_TEST_RUN_NAME="Unsharded Test: $(date)"; export STANTERPRISE_META_MARKER=test; npx playwright test > unsharded_test_output.log
