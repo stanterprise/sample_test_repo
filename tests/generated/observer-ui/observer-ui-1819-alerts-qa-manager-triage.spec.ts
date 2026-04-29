@@ -1,0 +1,8 @@
+import { registerObserverUiScenario } from "../../support/observer-ui-suite";
+
+registerObserverUiScenario({
+  scenarioId: 1819,
+  featureArea: "alerts",
+  persona: "qa-manager",
+  variant: "triage",
+});

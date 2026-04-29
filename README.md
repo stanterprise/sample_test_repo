@@ -2,6 +2,41 @@
 
 Comprehensive test suite for testing the `stanterprise-playwright-reporter`.
 
+## Observer UI Scale-Out
+
+The repository now includes a reusable page object pattern for synthetic but fully interactive Playwright UI coverage:
+
+- `tests/support/page-objects/observer-demo.page.ts` centralizes selectors and interactions.
+- `tests/support/fixtures.ts` exposes the page object as a shared fixture.
+- `tests/support/observer-ui-suite.ts` registers nested-step observer workflows from compact scenario definitions.
+- `tests/ui/observer-ui-smoke.spec.ts` is the focused smoke spec for the pattern.
+- `tests/generated/observer-ui/` is generated from `scripts/generate-observer-ui-suite.mjs` and is intended to hold 2048 deterministic UI spec files.
+
+### Generate the large UI suite
+
+```bash
+npm run generate:observer-ui
+```
+
+### Run the focused smoke check
+
+```bash
+npm run test:observer-ui:smoke
+```
+
+### Run the generated observer UI suite
+
+```bash
+npm run test:observer-ui
+```
+
+The existing shell runners now forward any Playwright arguments you pass, for example:
+
+```bash
+./verbose-run.sh tests/generated/observer-ui --grep @observer-ui
+./unsharded-run.sh tests/ui/observer-ui-smoke.spec.ts --project=chromium
+```
+
 ## Test Files
 
 ### 1. `passing.spec.ts`
@@ -114,34 +149,29 @@ Comprehensive test suite for testing the `stanterprise-playwright-reporter`.
 The test suite comprehensively tests the following reporter capabilities:
 
 1. **Test Lifecycle Events**
-
    - `onBegin()` - Suite start
    - `onEnd()` - Suite completion
    - `onExit()` - Reporter cleanup
 
 2. **Test Results**
-
    - Passing tests
    - Failing tests
    - Skipped tests
    - Flaky tests (with retries)
 
 3. **Test Metadata**
-
    - Run ID tracking
    - Start/end times
    - Duration measurements
    - Test counts
 
 4. **Test Steps**
-
    - Single-level steps
    - Nested steps (up to 5 levels)
    - Step success/failure
    - Step timing
 
 5. **Annotations**
-
    - Tags (smoke, regression, api, etc.)
    - Issue tracking
    - Ownership
@@ -191,7 +221,6 @@ npm run test:smoke
 The `stanterprise-playwright-reporter` should capture and report:
 
 1. **Run-level data**:
-
    - Unique run ID
    - Start time
    - End time
@@ -200,7 +229,6 @@ The `stanterprise-playwright-reporter` should capture and report:
    - Pass/fail/skip counts
 
 2. **Test-level data**:
-
    - Test name
    - Test status
    - Test duration
