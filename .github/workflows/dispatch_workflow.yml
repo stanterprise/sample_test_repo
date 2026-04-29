@@ -1,0 +1,96 @@
+name: dispatch_workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      execution_type:
+        description: "Execution mode"
+        required: true
+        default: "unsharded"
+        type: choice
+        options:
+          - sharded
+          - unsharded
+          - unshared
+      playwright_args:
+        description: "Optional additional Playwright args (example: tests --grep @smoke)"
+        required: false
+        default: ""
+        type: string
+
+jobs:
+  run-unsharded:
+    if: ${{ github.event.inputs.execution_type == 'unsharded' || github.event.inputs.execution_type == 'unshared' }}
+    runs-on: ubuntu-latest
+    env:
+      STANTERPRISE_GRPC_HOST: observer.rocks
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Ensure runner scripts are executable
+        run: chmod +x ./unsharded-run.sh
+
+      - name: Run unsharded tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          PLAYWRIGHT_ARGS="${{ github.event.inputs.playwright_args }}"
+          ./unsharded-run.sh $PLAYWRIGHT_ARGS
+
+  run-sharded:
+    if: ${{ github.event.inputs.execution_type == 'sharded' }}
+    runs-on: ubuntu-latest
+    env:
+      STANTERPRISE_GRPC_HOST: observer.rocks
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Run shard ${{ matrix.shard }}/4
+        shell: bash
+        env:
+          STANTERPRISE_RUN_ID: ${{ github.run_id }}
+          STANTERPRISE_TEST_RUN_NAME: Sharded Test (GH Actions)
+          STANTERPRISE_META_MARKER: test
+        run: |
+          set -euo pipefail
+          PLAYWRIGHT_ARGS="${{ github.event.inputs.playwright_args }}"
+
+          if [[ -n "$PLAYWRIGHT_ARGS" ]]; then
+            read -r -a EXTRA_ARGS <<< "$PLAYWRIGHT_ARGS"
+          else
+            EXTRA_ARGS=()
+          fi
+
+          npx playwright test --shard="${{ matrix.shard }}/4" "${EXTRA_ARGS[@]}"
