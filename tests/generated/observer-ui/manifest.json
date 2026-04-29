@@ -1,0 +1,26 @@
+{
+  "totalScripts": 2048,
+  "features": [
+    "triage",
+    "dashboards",
+    "alerts",
+    "pipelines",
+    "attachments",
+    "retries",
+    "annotations",
+    "shards"
+  ],
+  "personas": [
+    "analyst",
+    "lead",
+    "sre",
+    "qa-manager"
+  ],
+  "variants": [
+    "triage",
+    "detail-review",
+    "preferences",
+    "audit-trail"
+  ],
+  "generatedAt": "2026-04-24T14:40:56.476Z"
+}

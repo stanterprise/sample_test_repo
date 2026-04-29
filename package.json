@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "generate:observer-ui": "node ./scripts/generate-observer-ui-suite.mjs",
+    "test:observer-ui:smoke": "npx playwright test tests/ui/observer-ui-smoke.spec.ts --project=chromium",
+    "test:observer-ui": "npx playwright test tests/ui tests/generated/observer-ui --project=chromium --grep @observer-ui"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -13,6 +17,6 @@
     "@types/node": "^22.15.29"
   },
   "dependencies": {
-    "@stanterprise/playwright-reporter": "^0.1.0"
+    "@stanterprise/playwright-reporter": "^0.1.2"
   }
 }
