@@ -27,7 +27,7 @@ on:
         default: ""
         type: string
 
-run-name: "Run tests (${{ github.event.inputs.execution_type }}) - Workers: ${{ github.event.inputs.workers }}"
+run-name: "Run tests (${{ github.event.inputs.execution_type }}) - Shards: ${{ github.event.inputs.shards }} - Workers: ${{ github.event.inputs.workers }}"
 
 jobs:
   run-unsharded:
@@ -61,9 +61,43 @@ jobs:
         run: |
           set -euo pipefail
           PLAYWRIGHT_ARGS="${{ github.event.inputs.playwright_args }}"
-          ./unsharded-run.sh $PLAYWRIGHT_ARGS
+
+          if [[ -n "$PLAYWRIGHT_ARGS" ]]; then
+            read -r -a EXTRA_ARGS <<< "$PLAYWRIGHT_ARGS"
+          else
+            EXTRA_ARGS=()
+          fi
+
+          ./unsharded-run.sh "${EXTRA_ARGS[@]}"
+
+  prepare-shard-matrix:
+    if: ${{ github.event.inputs.execution_type == 'sharded' }}
+    runs-on: ubuntu-latest
+    outputs:
+      shard_matrix: ${{ steps.set-matrix.outputs.shard_matrix }}
+      total_shards: ${{ steps.set-matrix.outputs.total_shards }}
+
+    steps:
+      - name: Build shard matrix from input
+        id: set-matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          TOTAL_SHARDS='${{ github.event.inputs.shards }}'
+
+          if ! [[ "$TOTAL_SHARDS" =~ ^[1-9][0-9]*$ ]]; then
+            echo "Invalid shards input: $TOTAL_SHARDS"
+            exit 1
+          fi
+
+          SHARD_MATRIX="$(seq 1 "$TOTAL_SHARDS" | jq -R -s -c 'split("\n")[:-1] | map(tonumber)')"
+
+          echo "shard_matrix=$SHARD_MATRIX" >> "$GITHUB_OUTPUT"
+          echo "total_shards=$TOTAL_SHARDS" >> "$GITHUB_OUTPUT"
 
   run-sharded:
+    needs: prepare-shard-matrix
     if: ${{ github.event.inputs.execution_type == 'sharded' }}
     runs-on: ubuntu-latest
     env:
@@ -71,7 +105,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: ${{ fromJSON(needs.prepare-shard-matrix.outputs.shard_matrix) }}
 
     steps:
       - name: Checkout repository
@@ -89,7 +123,7 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps chromium
 
-      - name: Run shard ${{ matrix.shard }}/4
+      - name: Run shard ${{ matrix.shard }}/${{ needs.prepare-shard-matrix.outputs.total_shards }}
         shell: bash
         env:
           STANTERPRISE_RUN_ID: ${{ github.run_id }}
@@ -105,4 +139,4 @@ jobs:
             EXTRA_ARGS=()
           fi
 
-          npx playwright test --shard="${{ matrix.shard }}/4" "${EXTRA_ARGS[@]}"
+          npx playwright test --shard="${{ matrix.shard }}/${{ needs.prepare-shard-matrix.outputs.total_shards }}" "${EXTRA_ARGS[@]}"
