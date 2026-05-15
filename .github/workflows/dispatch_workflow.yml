@@ -11,19 +11,31 @@ on:
         options:
           - sharded
           - unsharded
-          - unshared
+      shards:
+        description: "Number of shards to use (only applicable for sharded execution)"
+        required: false
+        default: 4
+        type: number
+      workers:
+        description: "Number of workers to use (only applicable for unsharded execution)"
+        required: false
+        default: 4
+        type: number
       playwright_args:
         description: "Optional additional Playwright args (example: tests --grep @smoke)"
         required: false
         default: ""
         type: string
 
+run-name: "Run tests (${{ github.event.inputs.execution_type }}) - Workers: ${{ github.event.inputs.workers }}"
+
 jobs:
   run-unsharded:
-    if: ${{ github.event.inputs.execution_type == 'unsharded' || github.event.inputs.execution_type == 'unshared' }}
+    if: ${{ github.event.inputs.execution_type == 'unsharded' }}
     runs-on: ubuntu-latest
     env:
       STANTERPRISE_GRPC_HOST: observer.rocks
+      WORKERS: ${{ github.event.inputs.workers }}
 
     steps:
       - name: Checkout repository
