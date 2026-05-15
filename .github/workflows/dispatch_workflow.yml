@@ -17,7 +17,7 @@ on:
         default: 4
         type: number
       workers:
-        description: "Number of workers to use (only applicable for unsharded execution)"
+        description: "Number of workers to use per run (or per shard for sharded execution)"
         required: false
         default: 4
         type: number
@@ -102,6 +102,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       STANTERPRISE_GRPC_HOST: observer.rocks
+      WORKERS: ${{ github.event.inputs.workers }}
     strategy:
       fail-fast: false
       matrix:
