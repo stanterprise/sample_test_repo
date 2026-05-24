@@ -34,7 +34,7 @@ jobs:
     if: ${{ github.event.inputs.execution_type == 'unsharded' }}
     runs-on: ubuntu-latest
     env:
-      STANTERPRISE_GRPC_HOST: observer.rocks
+      STANTERPRISE_GRPC_HOST: grpc.observer.rocks:443
       WORKERS: ${{ github.event.inputs.workers }}
 
     steps:
@@ -101,7 +101,7 @@ jobs:
     if: ${{ github.event.inputs.execution_type == 'sharded' }}
     runs-on: ubuntu-latest
     env:
-      STANTERPRISE_GRPC_HOST: observer.rocks
+      STANTERPRISE_GRPC_HOST: grpc.observer.rocks:443
       WORKERS: ${{ github.event.inputs.workers }}
     strategy:
       fail-fast: false
