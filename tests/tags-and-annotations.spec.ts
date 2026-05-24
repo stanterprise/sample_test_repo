@@ -19,7 +19,7 @@ test.describe(
         .info()
         .annotations.push(
           { type: "tag", description: "critical" },
-          { type: "priority", description: "P0" }
+          { type: "priority", description: "P0" },
         );
       expect("critical").toBeTruthy();
     });
@@ -29,7 +29,7 @@ test.describe(
         .info()
         .annotations.push(
           { type: "issue", description: "JIRA-456" },
-          { type: "issue", description: "GITHUB-789" }
+          { type: "issue", description: "GITHUB-789" },
         );
       expect(2 + 2).toBe(4);
     });
@@ -39,7 +39,7 @@ test.describe(
         .info()
         .annotations.push(
           { type: "owner", description: "john.doe@example.com" },
-          { type: "team", description: "Platform Team" }
+          { type: "team", description: "Platform Team" },
         );
       expect(true).toBe(true);
     });
@@ -55,13 +55,13 @@ test.describe(
             { type: "tag", description: "integration" },
             { type: "severity", description: "high" },
             { type: "component", description: "auth-service" },
-            { type: "duration", description: "slow" }
+            { type: "duration", description: "slow" },
           );
 
         await test.step("API call simulation", async () => {
           expect(1).toBe(1);
         });
-      }
+      },
     );
 
     test("test with custom annotations", { tag: "@custom" }, async () => {
@@ -71,7 +71,7 @@ test.describe(
           { type: "environment", description: "staging" },
           { type: "browser", description: "chromium" },
           { type: "viewport", description: "desktop" },
-          { type: "locale", description: "en-US" }
+          { type: "locale", description: "en-US" },
         );
       expect("custom").toBeTruthy();
     });
@@ -84,12 +84,12 @@ test.describe(
           .info()
           .annotations.push(
             { type: "tag", description: "performance" },
-            { type: "metric", description: "page-load-time" }
+            { type: "metric", description: "page-load-time" },
           );
 
         await page.goto("https://example.com");
         await expect(page).toHaveTitle(/Example Domain/);
-      }
+      },
     );
 
     test("security test annotation", { tag: "@security" }, async () => {
@@ -98,7 +98,7 @@ test.describe(
         .annotations.push(
           { type: "tag", description: "security" },
           { type: "vulnerability", description: "XSS" },
-          { type: "severity", description: "critical" }
+          { type: "severity", description: "critical" },
         );
       expect(true).toBe(true);
     });
@@ -111,15 +111,15 @@ test.describe(
           .info()
           .annotations.push(
             { type: "tag", description: "a11y" },
-            { type: "wcag", description: "2.1-AA" }
+            { type: "wcag", description: "2.1-AA" },
           );
 
         await page.goto("https://example.com");
         const heading = page.locator("h1");
         await expect(heading).toBeVisible();
-      }
+      },
     );
-  }
+  },
 );
 
 test.describe("Tagged Test Groups", { tag: "@tagged-groups" }, () => {
@@ -143,7 +143,7 @@ test.describe("Tagged Test Groups", { tag: "@tagged-groups" }, () => {
         .info()
         .annotations.push(
           { type: "tag", description: "e2e" },
-          { type: "duration", description: "long" }
+          { type: "duration", description: "long" },
         );
     });
 
@@ -167,7 +167,7 @@ test.describe("Business Critical Tests", { tag: "@business-critical" }, () => {
       .annotations.push(
         { type: "tag", description: "business-critical" },
         { type: "priority", description: "P0" },
-        { type: "feature", description: "checkout" }
+        { type: "feature", description: "checkout" },
       );
     expect(true).toBe(true);
   });
@@ -179,7 +179,7 @@ test.describe("Business Critical Tests", { tag: "@business-critical" }, () => {
         { type: "tag", description: "business-critical" },
         { type: "priority", description: "P0" },
         { type: "feature", description: "payment" },
-        { type: "compliance", description: "PCI-DSS" }
+        { type: "compliance", description: "PCI-DSS" },
       );
     expect(true).toBe(true);
   });
@@ -191,7 +191,7 @@ test.describe("Business Critical Tests", { tag: "@business-critical" }, () => {
         { type: "tag", description: "business-critical" },
         { type: "priority", description: "P0" },
         { type: "feature", description: "auth" },
-        { type: "security", description: "high" }
+        { type: "security", description: "high" },
       );
     expect(true).toBe(true);
   });

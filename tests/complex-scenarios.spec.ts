@@ -10,7 +10,7 @@ test.describe("Complex Multi-Step Scenarios", { tag: "@complex" }, () => {
         .annotations.push(
           { type: "tag", description: "e2e" },
           { type: "scenario", description: "user-journey" },
-          { type: "priority", description: "P1" }
+          { type: "priority", description: "P1" },
         );
 
       await test.step("Navigate to homepage", async () => {
@@ -39,7 +39,7 @@ test.describe("Complex Multi-Step Scenarios", { tag: "@complex" }, () => {
       await test.step("Complete journey", async () => {
         expect(true).toBe(true);
       });
-    }
+    },
   );
 
   test(
@@ -63,7 +63,7 @@ test.describe("Complex Multi-Step Scenarios", { tag: "@complex" }, () => {
           });
         });
       });
-    }
+    },
   );
 
   test(
@@ -94,7 +94,7 @@ test.describe("Complex Multi-Step Scenarios", { tag: "@complex" }, () => {
         const count = await divs.count();
         expect(count).toBeGreaterThanOrEqual(0);
       });
-    }
+    },
   );
 
   test(
@@ -105,7 +105,7 @@ test.describe("Complex Multi-Step Scenarios", { tag: "@complex" }, () => {
         .info()
         .annotations.push(
           { type: "tag", description: "resilience" },
-          { type: "pattern", description: "error-recovery" }
+          { type: "pattern", description: "error-recovery" },
         );
 
       await test.step("Initial attempt", async () => {
@@ -123,7 +123,7 @@ test.describe("Complex Multi-Step Scenarios", { tag: "@complex" }, () => {
       await test.step("Verification after recovery", async () => {
         await expect(page.locator("h1")).toBeVisible();
       });
-    }
+    },
   );
 
   test(
@@ -144,7 +144,7 @@ test.describe("Complex Multi-Step Scenarios", { tag: "@complex" }, () => {
           expect(result).toBe(expected);
         });
       }
-    }
+    },
   );
 });
 
@@ -261,7 +261,7 @@ test.describe(
         .info()
         .annotations.push(
           { type: "tag", description: "comprehensive" },
-          { type: "hooks", description: "all" }
+          { type: "hooks", description: "all" },
         );
 
       await page.goto("https://example.com");
@@ -274,7 +274,7 @@ test.describe(
         .annotations.push(
           { type: "tag", description: "metadata" },
           { type: "category", description: "integration" },
-          { type: "owner", description: "qa-team" }
+          { type: "owner", description: "qa-team" },
         );
 
       await test.step("Setup", async () => {
@@ -290,5 +290,5 @@ test.describe(
         await expect(page).toHaveTitle(/Example Domain/);
       });
     });
-  }
+  },
 );
