@@ -17,6 +17,6 @@
     "@types/node": "^22.15.29"
   },
   "dependencies": {
-    "@stanterprise/playwright-reporter": "^0.1.2"
+    "@stanterprise/playwright-reporter": "^1.0.1"
   }
 }

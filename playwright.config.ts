@@ -26,7 +26,7 @@ export default defineConfig({
     [
       "@stanterprise/playwright-reporter",
       {
-        grpcHost: "grpc.observer.rocks:443",
+        grpcAddress: "grpc.observer.rocks:443",
         // grpcHost: "localhost",
 
         verbose: false,

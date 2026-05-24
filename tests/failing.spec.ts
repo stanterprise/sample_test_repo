@@ -6,7 +6,7 @@ test.describe("Failing Tests Suite", { tag: "@failing" }, () => {
     { tag: ["@failing", "@regression"] },
     async () => {
       expect(1 + 1).toBe(3); // This will fail
-    }
+    },
   );
 
   test("failing with custom error message", async () => {
@@ -57,7 +57,7 @@ test.describe("Failing Tests Suite", { tag: "@failing" }, () => {
     async ({ page }) => {
       await page.goto("https://example.com");
       await expect(page).toHaveTitle("This Title Does Not Exist");
-    }
+    },
   );
 
   test(
@@ -68,7 +68,7 @@ test.describe("Failing Tests Suite", { tag: "@failing" }, () => {
       await page.goto("https://example.com");
       // This will timeout
       await page.waitForSelector("#non-existent-element", { timeout: 5000 });
-    }
+    },
   );
 
   test("multiple failures", async () => {

@@ -13,7 +13,7 @@ test.describe("Passing Tests Suite", { tag: "@passing" }, () => {
       expect(false).toBeFalsy();
       expect("hello").toContain("ell");
       expect([1, 2, 3]).toHaveLength(3);
-    }
+    },
   );
 
   test(
@@ -32,7 +32,7 @@ test.describe("Passing Tests Suite", { tag: "@passing" }, () => {
       await test.step("Step 3: Finalize", async () => {
         expect(true).toBe(true);
       });
-    }
+    },
   );
 
   test("test with nested steps", { tag: ["@nested", "@steps"] }, async () => {
@@ -56,11 +56,11 @@ test.describe("Passing Tests Suite", { tag: "@passing" }, () => {
         .annotations.push(
           { type: "issue", description: "JIRA-123" },
           { type: "tag", description: "smoke" },
-          { type: "owner", description: "qa-team" }
+          { type: "owner", description: "qa-team" },
         );
 
       expect("annotation test").toBeTruthy();
-    }
+    },
   );
 
   test("quick test", async () => {
@@ -121,5 +121,5 @@ test.describe(
         await expect(para).toBeVisible();
       });
     });
-  }
+  },
 );

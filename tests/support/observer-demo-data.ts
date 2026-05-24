@@ -78,21 +78,19 @@ export function createObserverScenario(
   const workspaceName =
     overrides.workspaceName ??
     `${featureArea}-${String(seed).padStart(4, "0")}`;
+  const records = overrides.records ?? buildRecords(seed, workspaceName);
 
   return {
     id: `observer-ui-${String(seed).padStart(4, "0")}`,
-    workspaceName,
     persona: personas[seed % personas.length],
-    featureArea,
     searchTerm: featureArea,
     filterStatus: statuses[(seed + 1) % statuses.length],
     preferredTheme: themes[seed % themes.length],
     notificationsEnabled: seed % 2 === 0,
-    records: buildRecords(seed, workspaceName),
     ...overrides,
     featureArea,
     workspaceName,
-    records: overrides.records ?? buildRecords(seed, workspaceName),
+    records,
   };
 }
 

@@ -9,7 +9,7 @@ test.describe("Performance Tests", { tag: "@performance" }, () => {
         .info()
         .annotations.push(
           { type: "tag", description: "performance" },
-          { type: "metric", description: "load-time" }
+          { type: "metric", description: "load-time" },
         );
 
       const startTime = Date.now();
@@ -22,7 +22,7 @@ test.describe("Performance Tests", { tag: "@performance" }, () => {
       });
 
       expect(loadTime).toBeLessThan(5000);
-    }
+    },
   );
 
   test("measure multiple navigation performance", async ({ page }) => {
@@ -57,13 +57,13 @@ test.describe("Performance Tests", { tag: "@performance" }, () => {
         .info()
         .annotations.push(
           { type: "tag", description: "slow" },
-          { type: "expected-duration", description: "long" }
+          { type: "expected-duration", description: "long" },
         );
 
       await page.goto("https://example.com");
       await page.waitForTimeout(2000);
       await expect(page).toHaveTitle(/Example Domain/);
-    }
+    },
   );
 
   test("parallel operations performance", async ({ page }) => {
@@ -92,7 +92,7 @@ test.describe("Performance Tests", { tag: "@performance" }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "performance" },
-        { type: "metric", description: "resource-load" }
+        { type: "metric", description: "resource-load" },
       );
 
     const metrics: any[] = [];
@@ -122,7 +122,7 @@ test.describe("Stress Tests", { tag: ["@performance", "@stress"] }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "stress" },
-        { type: "iterations", description: "50" }
+        { type: "iterations", description: "50" },
       );
 
     await page.goto("https://example.com");
@@ -140,7 +140,7 @@ test.describe("Stress Tests", { tag: ["@performance", "@stress"] }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "stress" },
-        { type: "type", description: "memory" }
+        { type: "type", description: "memory" },
       );
 
     const largeArray: number[] = [];
@@ -157,7 +157,7 @@ test.describe("Stress Tests", { tag: ["@performance", "@stress"] }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "stress" },
-        { type: "type", description: "cpu" }
+        { type: "type", description: "cpu" },
       );
 
     await test.step("Heavy computation", async () => {

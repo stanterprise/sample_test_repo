@@ -12,7 +12,7 @@ test.describe("Flaky Tests Suite", { tag: "@flaky" }, () => {
       flakyAttempt++;
       // Fails first time, passes on retry
       expect(flakyAttempt).toBeGreaterThan(1);
-    }
+    },
   );
 
   test(
@@ -21,7 +21,7 @@ test.describe("Flaky Tests Suite", { tag: "@flaky" }, () => {
     async () => {
       const shouldPass = Math.random() > 0.3; // 70% chance to pass
       expect(shouldPass, "Random failure").toBe(true);
-    }
+    },
   );
 
   test(
@@ -31,7 +31,7 @@ test.describe("Flaky Tests Suite", { tag: "@flaky" }, () => {
       const timestamp = Date.now();
       // Passes only if timestamp is even
       expect(timestamp % 2).toBe(0);
-    }
+    },
   );
 
   test("flaky with steps", async () => {

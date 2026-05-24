@@ -9,7 +9,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
         .info()
         .annotations.push(
           { type: "tag", description: "api" },
-          { type: "method", description: "GET" }
+          { type: "method", description: "GET" },
         );
 
       await test.step("Setup mock route", async () => {
@@ -32,7 +32,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
       await test.step("Verify response", async () => {
         expect(true).toBe(true);
       });
-    }
+    },
   );
 
   test(
@@ -43,7 +43,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
         .info()
         .annotations.push(
           { type: "tag", description: "api" },
-          { type: "method", description: "POST" }
+          { type: "method", description: "POST" },
         );
 
       let requestBody: any = null;
@@ -59,7 +59,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
 
       await page.goto("https://example.com");
       expect(true).toBe(true);
-    }
+    },
   );
 
   test(
@@ -70,7 +70,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
         .info()
         .annotations.push(
           { type: "tag", description: "api" },
-          { type: "status", description: "404" }
+          { type: "status", description: "404" },
         );
 
       await page.route("**/api/not-found", (route) => {
@@ -83,7 +83,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
 
       await page.goto("https://example.com");
       expect(true).toBe(true);
-    }
+    },
   );
 
   test(
@@ -94,7 +94,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
         .info()
         .annotations.push(
           { type: "tag", description: "api" },
-          { type: "status", description: "500" }
+          { type: "status", description: "500" },
         );
 
       await page.route("**/api/server-error", (route) => {
@@ -107,7 +107,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
 
       await page.goto("https://example.com");
       expect(true).toBe(true);
-    }
+    },
   );
 
   test(
@@ -118,7 +118,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
         .info()
         .annotations.push(
           { type: "tag", description: "api" },
-          { type: "feature", description: "pagination" }
+          { type: "feature", description: "pagination" },
         );
 
       await test.step("Page 1", async () => {
@@ -136,7 +136,7 @@ test.describe("API Testing Simulation", { tag: "@api" }, () => {
         const response = { page: 3, data: [7, 8, 9], total: 10 };
         expect(response.page).toBe(3);
       });
-    }
+    },
   );
 });
 
@@ -146,7 +146,7 @@ test.describe("Request/Response Validation", { tag: "@api" }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "api" },
-        { type: "validation", description: "headers" }
+        { type: "validation", description: "headers" },
       );
 
     await page.route("**/api/test", (route, request) => {
@@ -167,7 +167,7 @@ test.describe("Request/Response Validation", { tag: "@api" }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "api" },
-        { type: "validation", description: "schema" }
+        { type: "validation", description: "schema" },
       );
 
     const response = {
@@ -195,7 +195,7 @@ test.describe("Request/Response Validation", { tag: "@api" }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "api" },
-        { type: "validation", description: "array" }
+        { type: "validation", description: "array" },
       );
 
     const users = [
@@ -220,7 +220,7 @@ test.describe(
         .info()
         .annotations.push(
           { type: "tag", description: "api" },
-          { type: "tag", description: "performance" }
+          { type: "tag", description: "performance" },
         );
 
       const startTime = Date.now();
@@ -249,7 +249,7 @@ test.describe(
         .info()
         .annotations.push(
           { type: "tag", description: "api" },
-          { type: "concurrency", description: "high" }
+          { type: "concurrency", description: "high" },
         );
 
       await page.route("**/api/**", (route) => {
@@ -264,12 +264,12 @@ test.describe(
       const promises = Array.from({ length: 5 }, (_, i) =>
         test.step(`Request ${i + 1}`, async () => {
           expect(true).toBe(true);
-        })
+        }),
       );
 
       await Promise.all(promises);
     });
-  }
+  },
 );
 
 test.describe("Authentication Scenarios", { tag: ["@api", "@auth"] }, () => {
@@ -278,7 +278,7 @@ test.describe("Authentication Scenarios", { tag: ["@api", "@auth"] }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "auth" },
-        { type: "scenario", description: "success" }
+        { type: "scenario", description: "success" },
       );
 
     await page.route("**/api/auth/login", (route) => {
@@ -300,7 +300,7 @@ test.describe("Authentication Scenarios", { tag: ["@api", "@auth"] }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "auth" },
-        { type: "scenario", description: "failure" }
+        { type: "scenario", description: "failure" },
       );
 
     await page.route("**/api/auth/login", (route) => {
@@ -321,7 +321,7 @@ test.describe("Authentication Scenarios", { tag: ["@api", "@auth"] }, () => {
       .info()
       .annotations.push(
         { type: "tag", description: "auth" },
-        { type: "scenario", description: "token-refresh" }
+        { type: "scenario", description: "token-refresh" },
       );
 
     await page.route("**/api/auth/refresh", (route) => {
