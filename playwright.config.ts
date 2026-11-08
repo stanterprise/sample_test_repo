@@ -28,7 +28,6 @@ export default defineConfig({
       {
         grpcAddress: "grpc.observer.rocks:443",
         // grpcHost: "localhost",
-
         verbose: false,
         debug: true,
       },
