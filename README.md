@@ -2,6 +2,20 @@
 
 Comprehensive test suite for testing the `stanterprise-playwright-reporter`.
 
+## Local reporter checkout
+
+The reporter dependency points to the sibling
+`../stanterprise-playwright-reporter` checkout. Install its dependencies and
+build it before installing this project:
+
+```bash
+(cd ../stanterprise-playwright-reporter && npm install && npm run build)
+npm install
+```
+
+Rebuild the reporter after changing its source. Use a published package
+version instead if the sibling checkout is not available.
+
 ## Observer UI Scale-Out
 
 The repository now includes a reusable page object pattern for synthetic but fully interactive Playwright UI coverage:
@@ -244,9 +258,18 @@ The `stanterprise-playwright-reporter` should capture and report:
 
 ## Configuration
 
+The checked-in configuration uses `grpc.smoke.observer.rocks:443` with TLS
+and `grpcTimeout: 30000` (a 30-second deadline per gRPC attempt). Large suites
+upload their complete test tree at run start, which can exceed the reporter's
+default 1-second deadline. This client deadline is independent of ingress
+proxy timeouts.
+
+Set `STANTERPRISE_INGESTION_AUTH_KEY` through your shell or CI secret store
+to match the smoke release's ingestion key. Do not commit the key.
+
 The reporter can be configured via environment variables:
 
-- `STANTERPRISE_GRPC_ADDRESS` - gRPC server address (default: `localhost:50051`)
+- `STANTERPRISE_GRPC_ADDRESS` - gRPC server address (default: `localhost:50051`); an explicit `grpcAddress` in the configuration takes precedence.
 - `STANTERPRISE_GRPC_ENABLED` - Enable/disable gRPC (default: `true`)
 
 ## Test Statistics
